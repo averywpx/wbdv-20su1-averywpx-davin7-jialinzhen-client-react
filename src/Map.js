@@ -3,6 +3,7 @@ import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "reac
 import Geocode from "react-geocode";
 import Autocomplete from 'react-google-autocomplete';
 import { GoogleMapsAPI } from './client-config';
+import { Link } from 'react-router-dom';
 Geocode.setApiKey( GoogleMapsAPI );
 Geocode.enableDebug();
 
@@ -270,19 +271,38 @@ class Map extends Component{
 						<input type="text" name="address" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.address }/>
 					</div>
 				</div>
-
-				<AsyncMap
-					googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GoogleMapsAPI}&libraries=places`}
-					loadingElement={
-						<div style={{ height: `100%` }} />
-					}
-					containerElement={
-						<div style={{ height: this.props.height }} />
-					}
-					mapElement={
-						<div style={{ height: `100%` }} />
-					}
-				/>
+				<div>
+                    <AsyncMap
+                        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${GoogleMapsAPI}&libraries=places`}
+                        loadingElement={
+                            <div style={{ height: `100%` }} />
+                        }
+                        containerElement={
+                            <div style={{ height: this.props.height }} />
+                        }
+                        mapElement={
+                            <div style={{ height: `100%` }} />
+                        }
+                    />
+                </div>
+                <label>
+				    <div>
+				    </div>
+				</label>
+                <label>
+                    <div>
+                    </div>
+                </label>
+                <div className="form-group">
+                    <label htmlFor=""></label>
+                    <Link to={{
+                        pathname: './services/ClubService',
+                        data: [this.state.address]
+                    }}>
+                    <button color="primary" name="submitbtn" className="form-control"
+                        >Create Event</button>
+                    </Link>
+                </div>
 			</div>
 		} else {
 			map = <div style={{height: this.props.height}} />
