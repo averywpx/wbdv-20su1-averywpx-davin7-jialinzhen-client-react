@@ -1,3 +1,5 @@
+//referenced from:
+//https://github.com/imranhsayed/google-maps-in-react
 import React, { Component } from 'react';
 import Map from './Map';
 

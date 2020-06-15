@@ -1,3 +1,5 @@
+//referenced from:
+//https://github.com/imranhsayed/google-maps-in-react
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

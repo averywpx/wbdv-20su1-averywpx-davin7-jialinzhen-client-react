@@ -1,3 +1,5 @@
+//referenced from:
+//https://github.com/imranhsayed/google-maps-in-react
 import React, { Component } from 'react';
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
 import Geocode from "react-geocode";
