@@ -1,11 +1,15 @@
 import React from 'react'
 import {BrowserRouter, Route} from "react-router-dom";
-import HomeComponent from "./HomeComponent";
-import ClubListComponent from "./club-list/ClubListComponent";
-import ClubHomePageComponent from "./club-home-page/ClubHomePageComponent";
+import OriginHomeComponent from "./OriginHomeComponent";
+import ClubListComponent from "./home/ClubListComponent";
+import ClubPageComponent from "./club-page/ClubPageComponent";
 import ClubLoginComponent from "./login/ClubLoginComponent";
 import RegisterComponent from "./register/RegisterComponent";
-import MemberListComponent from "./member-list/MemberListComponent";
+import ClubMemberListComponent from "./club-page/ClubMemberListComponent";
+import LeaderWorksiteComponent from "./worksite/LeaderWorksiteComponent";
+import DesignCLubHomePageComponent from "./ClubPageSetting/DesignCLubHomePageComponent";
+import HomeComponent from "./home/HomeComponent";
+import ProfileComponent from "./profile/ProfileComponent";
 
 
 class WhiteBoard extends React.Component {
@@ -16,6 +20,12 @@ class WhiteBoard extends React.Component {
 
                     <Route
                         path='/'
+                        exact={true}
+                        component={OriginHomeComponent}
+                    />
+
+                    <Route
+                        path='/home/:tab'
                         exact={true}
                         component={HomeComponent}
                     />
@@ -30,20 +40,35 @@ class WhiteBoard extends React.Component {
                         exact={true}
                         component={RegisterComponent}/>
 
-                    <Route
-                        path='/club-list'
-                        exact={true}
-                        component={ClubListComponent}/>
+                    {/*<Route*/}
+                    {/*    path='/club-list'*/}
+                    {/*    exact={true}*/}
+                    {/*    component={ClubListComponent}/>*/}
 
                     <Route
-                        path='/club-home-page'
+                        path='/club-page/:tab'
                         exact={true}
-                        component={ClubHomePageComponent}/>
+                        component={ClubPageComponent}/>
 
                     <Route
-                        path='/member-list'
+                        path='/profile'
                         exact={true}
-                        component={MemberListComponent}/>
+                        component={ProfileComponent}/>
+
+                    {/*<Route*/}
+                    {/*    path='/member-list'*/}
+                    {/*    exact={true}*/}
+                    {/*    component={ClubMemberListComponent}/>*/}
+
+                    {/*<Route*/}
+                    {/*    path='/leader-worksite'*/}
+                    {/*    exact={true}*/}
+                    {/*    component={LeaderWorksiteComponent}/>*/}
+
+                    <Route
+                        path='/:tabs/setting'
+                        exact={true}
+                        component={DesignCLubHomePageComponent}/>
 
 
                 </div>

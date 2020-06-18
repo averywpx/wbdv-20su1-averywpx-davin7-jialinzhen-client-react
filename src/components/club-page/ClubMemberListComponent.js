@@ -1,6 +1,6 @@
 import React from "react";
 
-export default class MemberListComponent extends React.Component{
+export default class ClubMemberListComponent extends React.Component{
     render() {
         return (
             <div className="table table-striped ">

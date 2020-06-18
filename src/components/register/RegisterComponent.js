@@ -1,6 +1,6 @@
 import React from "react";
 import ClubService from "../../services/ClubService";
-import ClubHomePageComponent from "../club-home-page/ClubHomePageComponent";
+import ClubPageComponent from "../club-page/ClubPageComponent";
 import {Link} from "react-router-dom";
 
 export default class RegisterComponent extends React.Component {
@@ -114,11 +114,12 @@ export default class RegisterComponent extends React.Component {
                     <label className="col-sm-2 col-form-label"></label>
                     <div className="col-sm-10">
 
-                            <Link to={`/club-home-page`}>
+                        <Link to={`/club-home-page`}>
                                 <button className="btn btn-primary form-control">
+
                                     Register
                                 </button>
-                            </Link>
+                        </Link>
 
                     </div>
                 </div>
