@@ -21,6 +21,13 @@ const EventReducer = (state = initialState, action) => {
                 ...state,
                 events: state.events.filter(event => event.id !== action.eventId)
             }
+        case "UPDATE_EVENT":
+            return {
+                ...state,
+                events: state.events.map(
+                    event => event.id === action.updatedEvent.id ?
+                        action.updatedEvent : event )
+            }
         default:
             return state
     }

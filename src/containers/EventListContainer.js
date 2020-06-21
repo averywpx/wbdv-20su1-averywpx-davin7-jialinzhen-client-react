@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import ClubEventListComponent from "../components/club-page/ClubEventListComponent";
-import {findEventsForClub, createAEvent, deleteEvent} from "../services/EventService";
+import {findEventsForClub, createAEvent, deleteEvent, updateEvent} from "../services/EventService";
 import {createClub} from "../services/ClubService";
 
 
@@ -34,7 +34,14 @@ const dispatchToPropertyMapper = (dispatch) => ({
             .then(status => dispatch({
                 type: "DELETE_EVENT",
                 eventId: eventId
+            })),
+    updateEvent: (eventId, newEventData) => {
+        updateEvent(eventId, newEventData)
+            .then(status => dispatch({
+                type: 'UPDATE_EVENT',
+                updatedEvent: newEventData
             }))
+    }
 })
 
 const EventListContainer = connect

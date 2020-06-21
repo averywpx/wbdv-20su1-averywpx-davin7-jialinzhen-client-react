@@ -18,9 +18,19 @@ export const deleteEvent = (eid) =>
     })
         .then(response => response.json())
 
+export const updateEvent = (eventId, newEvent) =>
+    fetch(`http://localhost:8080/api/events/${eventId}`, {
+        method: 'PUT',
+        body: JSON.stringify(newEvent),
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+
 export default {
     findEventsForClub,
     createAEvent,
-    deleteEvent
-    // updateClub
+    deleteEvent,
+    updateEvent
 }
