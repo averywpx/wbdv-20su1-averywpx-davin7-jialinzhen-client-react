@@ -5,13 +5,14 @@ import ClubListComponent from "./ClubListComponent";
 import ClubTabsComponent from "./ClubTabsComponent";
 import ClubTaskListComponent from "./ClubTaskListComponent";
 import {Link} from "react-router-dom";
+import ClubListContainer from "../../containers/ClubListContainer";
 
 export default class HomeComponent extends React.Component{
 
     state = {
-        userType: 'president',
+        userType: '',
         user: {},
-        tab: this.props.match.params.tab  //introduction club-list tasks club-page search
+        tab: this.props.match.params.tab  //introduction clublist tasks clublpage search
     }
 
     setTabs = (tab) => {
@@ -86,9 +87,9 @@ export default class HomeComponent extends React.Component{
                                     {
                                         <div>
                                             <a
-                                                className={this.state.tab === "club-list" ? 'nav-link active' : 'nav-link mouse-pointer'}
+                                                className={this.state.tab === "clublist" ? 'nav-link active' : 'nav-link mouse-pointer'}
                                                 onClick={() =>
-                                                    this.setTabs('club-list')}
+                                                    this.setTabs('clublist')}
                                             >
                                                 Club List
                                             </a>
@@ -158,9 +159,9 @@ export default class HomeComponent extends React.Component{
                                     {
                                         <div>
                                             <a
-                                                className={this.state.tab === "club-page" ? 'nav-link active' : 'nav-link mouse-pointer'}
+                                                className={this.state.tab === "clubpage" ? 'nav-link active' : 'nav-link mouse-pointer'}
                                                 onClick={() =>
-                                                    this.setTabs('club-page')}
+                                                    this.setTabs('clubpage')}
                                             >
                                                 Club Page
                                             </a>
@@ -213,9 +214,11 @@ export default class HomeComponent extends React.Component{
                     <HomeAboutComponent/>
                 </div>}
 
-                {(this.state.tab === 'club-list' || this.state.tab === 'club-page')&&
+                {(this.state.tab === 'clublist' || this.state.tab === 'clubpage')&&
                 <div>
-                    <ClubListComponent/>
+                    {/*<ClubListComponent/>*/}
+                    {/*<ClubListContainer {...match}/>*/}
+                    <ClubListContainer/>
                 </div>}
 
                 {this.state.tab === 'tasks' &&

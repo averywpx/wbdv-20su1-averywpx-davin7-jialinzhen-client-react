@@ -46,7 +46,7 @@ class WhiteBoard extends React.Component {
                     {/*    component={ClubListComponent}/>*/}
 
                     <Route
-                        path='/club-page/:tab'
+                        path={['/club-page/:tab', '/club-page/:clubId/:tab']}
                         exact={true}
                         component={ClubPageComponent}/>
 

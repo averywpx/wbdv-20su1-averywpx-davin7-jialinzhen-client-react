@@ -111,6 +111,46 @@ export default class RegisterComponent extends React.Component {
                 </div>
 
                 <div className="form-group row">
+                    <label className="col-sm-3 col-form-label">Gender</label>
+                    <div className="col-sm-4 custom-control custom-radio">
+                        <input type="checkbox"
+                               className="custom-control-input"
+                               id="male"
+                               name="gender"/>
+                        <label htmlFor="male" className="custom-control-label">Male</label>
+                    </div>
+                    <div className="custom-control col-sm-5 custom-radio">
+                        <input type="checkbox"
+                               className="custom-control-input"
+                               id="female"
+                               name="gender"/>
+                        <label htmlFor="female" className="custom-control-label">Female</label>
+                    </div>
+
+                </div>
+                <div className="form-group row">
+                    <label htmlFor="phone"
+                           className="col-sm-2 col-form-label">Phone</label>
+                    <div className="col-sm-10">
+                        <input type="text"
+                               className="form-control wbdv-field wbdv-phone"
+                               id="phone"
+                               placeholder="(xxx)-xxx-xxxx"/>
+                    </div>
+                </div>
+
+                <div className="form-group row">
+                    <label htmlFor="email"
+                           className="col-sm-2 col-form-label">Email</label>
+                    <div className="col-sm-10">
+                        <input type="text"
+                               className="form-control wbdv-field wbdv-email"
+                               id="email"
+                               placeholder="example@gmail.com"/>
+                    </div>
+                </div>
+
+                <div className="form-group row">
                     <label className="col-sm-2 col-form-label"></label>
                     <div className="col-sm-10">
 

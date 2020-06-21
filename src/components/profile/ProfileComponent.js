@@ -5,9 +5,24 @@ export default class ProfileComponent extends React.Component {
     render() {
         return (
             <div className="container-fluid">
-                <h1>Profile</h1>
-                <br/>
+                <div className="row">
+                    <div className="col-9">
+                        <h1>Profile</h1>
+                    </div>
+                    <div className="col-1">
 
+                        <button className="btn btn-primary float-right add-margin3">
+                            Home
+                        </button>
+                    </div>
+                    <div className="col-2">
+                        <button className="btn btn-danger float-right">
+                            Delete User
+                        </button>
+                    </div>
+                </div>
+
+                <br/>
                 <div className="alert alert-success wbdv-message" role="alert">
                     Profile successfully saved
                 </div>
@@ -21,8 +36,8 @@ export default class ProfileComponent extends React.Component {
                                        readOnly
                                        className="form-control wbdv-field wbdv-username"
                                        id="username"
-                                       value="Averywpx"
-                                       placeholder="Averywpx"/>
+                                       value="someone"
+                                       placeholder="someone"/>
                             </div>
                         </div>
 
@@ -31,29 +46,31 @@ export default class ProfileComponent extends React.Component {
                                    className="col-sm-2 col-form-label">Password</label>
                             <div className="col-sm-10">
                                 <input type="password"
-                                       className="form-control wbdv-field wbdv-password"
+                                       className="form-control"
                                        id="inputPassword"
-                                       placeholder="bkblhlb#$%"/>
+                                       placeholder="******"/>
                             </div>
                         </div>
 
                         <div className="form-group row">
-                            <label className="col-sm-3 col-form-label">Gender</label>
-                            <div className="col-sm-4 custom-control custom-radio">
-                                <input type="checkbox"
+
+                            <label className="col-sm-3 col-form-label" htmlFor="gender">Gender</label>
+                            <div className="custom-control custom-radio custom-control-inline">
+                            <div className="col-sm-4 custom-control custom-radio add-margin10">
+                                <input type="radio"
                                        className="custom-control-input"
                                        id="male"
                                        name="gender"/>
                                 <label htmlFor="male" className="custom-control-label">Male</label>
                             </div>
-                            <div className="custom-control col-sm-5 custom-radio">
-                                <input type="checkbox"
+                            <div className="custom-control float-right col-sm-5 custom-radio">
+                                <input type="radio"
                                        className="custom-control-input"
                                        id="female"
                                        name="gender"/>
                                 <label htmlFor="female" className="custom-control-label">Female</label>
                             </div>
-
+                        </div>
                         </div>
                         <div className="form-group row">
                             <label htmlFor="phone"
@@ -81,7 +98,7 @@ export default class ProfileComponent extends React.Component {
                     <div className="col-4">
                         <ul className="list-group wbdv-Club-list d-none d-lg-block">
                             <li className="list-group-item">
-                                <label className="  ">Club 1</label>
+                                <label>Club 1</label>
                                 <button className="btn float-right btn-sm white-icon  ">
                                     X
                                 </button>
@@ -106,9 +123,42 @@ export default class ProfileComponent extends React.Component {
 
                             </li>
                         </ul>
+
+                        <br/>
+
+                        <ul className="list-group">
+                            <li className="list-group-item">
+                                <label>Movie 1</label>
+                                <button className="btn float-right btn-sm white-icon  ">
+                                    X
+                                </button>
+                            </li>
+                            <li className="list-group-item">
+                                <label>Movie 2</label>
+                                <button className="btn float-right btn-sm grey-icon">
+                                    X
+                                </button>
+                            </li>
+                            <li className="list-group-item">
+                                <div className="input-group input-group-sm">
+                                    <input type="text"
+                                           className="form-control"
+                                           placeholder="Add New Movie"/>
+                                    <button className="btn float-right btn-sm grey-icon">
+                                        <i className="fa fa-plus -add-btn"
+                                           aria-hidden="true"></i>
+                                    </button>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                        
                     </div>
 
                 </div>
+
+                <br/>
 
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label"></label>

@@ -5,6 +5,7 @@ import ClubMemberListComponent from "./ClubMemberListComponent";
 import ClubSongListComponent from "./ClubSongListComponent";
 import ClubAboutComponent from "./ClubAboutComponent";
 import CLubContactComponent from "./CLubContactComponent";
+import EventListContainer from "../../containers/EventListContainer";
 
 
 export default class ClubPageComponent extends React.Component{
@@ -19,7 +20,12 @@ export default class ClubPageComponent extends React.Component{
         this.props.history.push(`/club-page/${tab}`);
     }
 
+    componentDidMount() {
+        console.log(this.props.match)
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(this.props)
         if (prevProps.match.params.tab !== this.props.match.params.tab) {
             this.setState({
                 tab: this.props.match.params.tab
@@ -143,7 +149,10 @@ export default class ClubPageComponent extends React.Component{
 
                 {this.state.tab === 'events' &&
                 <div>
-                    <ClubEventListComponent/>
+                    <EventListContainer
+                        match={this.props.match}
+                        history={this.props.history}
+                    />
                 </div>}
 
                 {this.state.tab === 'member-list' &&
