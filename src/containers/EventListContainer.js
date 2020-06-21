@@ -10,7 +10,7 @@ const stateToPropertyMapper = (state, ownProps) => {
     return {
         events: state.EventReducer.events,
         newEventTitle: state.EventReducer.newEventTitle,
-        //params: ownProps.params
+        params: ownProps.params
         // ownProps: ownProps
     }
 }
@@ -27,12 +27,12 @@ const dispatchToPropertyMapper = (dispatch) => ({
         createAEvent(cid, newEvent)
             .then(actualEvent => dispatch({
                 type: 'CREATE_EVENT',
-                newEvent
+                newEvent: actualEvent
             })),
     deleteEvent: (eventId) =>
         deleteEvent(eventId)
             .then(status => dispatch({
-                type: "DELETE_Event",
+                type: "DELETE_EVENT",
                 eventId: eventId
             }))
 })

@@ -20,13 +20,14 @@ export default class ClubListComponent extends React.Component {
         console.log(this.props)
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(prevProps)
-        console.log(this.props)
-        if (prevProps.params !== this.props.params) {
-            this.props.findAllClubs()
-        }
-    }
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     console.log(prevProps)
+    //     console.log(this.props)
+    //     console.log(prevProps.params !== this.props.params)
+    //     if (prevProps.params !== this.props.params) {
+    //         this.props.findAllClubs()
+    //     }
+    // }
 
 
     // componentDidMount() {
@@ -95,13 +96,17 @@ export default class ClubListComponent extends React.Component {
                         </td>
                         <td>
                             <button className="btn btn-danger"
-                                    onClick={() => this.props.createClub(
-                                        {
-                                            name: this.state.newClubName,
-                                            category: this.state.newClubCategory,
-                                            president: this.state.newClubPresident,
+                                    onClick={() => {
+                                        this.props.createClub(
+                                            {
+                                                name: this.state.newClubName,
+                                                category: this.state.newClubCategory,
+                                                president: this.state.newClubPresident,
 
-                                        })}>
+                                            });
+                                        this.props.findAllClubs();
+                                    }
+                                    }>
                                 <i className="fa fa-plus" aria-hidden="true"></i>
                             </button>
                         </td>

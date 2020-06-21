@@ -18,21 +18,21 @@ export default class ClubEventListComponent extends React.Component {
         console.log(this.props)
     }
 
-    updateEventName = (newName) =>
-        this.setState(prevState => ({
-            event: {
-                ...prevState.event,
-                name: newName
-            }
-        }))
-
-    updateEventTime = (newTime) =>
-        this.setState(prevState => ({
-            event: {
-                ...prevState.event,
-                time: newTime
-            }
-        }))
+    // updateEventName = (newName) =>
+    //     this.setState(prevState => ({
+    //         event: {
+    //             ...prevState.event,
+    //             name: newName
+    //         }
+    //     }))
+    //
+    // updateEventTime = (newTime) =>
+    //     this.setState(prevState => ({
+    //         event: {
+    //             ...prevState.event,
+    //             time: newTime
+    //         }
+    //     }))
 
     // componentDidUpdate(prevProps, prevState, snapshot) {
     //     console.log(prevProps)
@@ -81,7 +81,9 @@ export default class ClubEventListComponent extends React.Component {
                                     }
                                     {this.state.editingEvent.id === event.id &&
                                     <div>
-                                        <div>
+                                        {console.log(this.state.editingEvent.id )}
+                                        {console.log(event.id)}
+                                        <div className="form-group row">
                                             <label htmlFor="eventName"
                                                    className="col-sm-2 col-form-label">
                                                 Event:
@@ -101,7 +103,7 @@ export default class ClubEventListComponent extends React.Component {
                                                    type={'text'}
                                             />
                                         </div>
-                                        <div>
+                                        <div className="form-group row">
                                             <label htmlFor="eventTime"
                                                    className="col-sm-2 col-form-label">
                                                 When:
@@ -120,7 +122,7 @@ export default class ClubEventListComponent extends React.Component {
                                                    type={'date'}
                                             />
                                         </div>
-                                        <div>
+                                        <div className="form-group row">
                                             <label htmlFor="eventLocation"
                                                    className="col-sm-2 col-form-label">
                                                 Location:
@@ -139,10 +141,10 @@ export default class ClubEventListComponent extends React.Component {
                                                    type={'text'}
                                             />
                                         </div>
-                                        <div>
+                                        <div className="form-group row">
                                             <label htmlFor="eventContent"
                                                    className="col-sm-2 col-form-label">
-                                                Location:
+                                                Content:
                                             </label>
                                             <input onChange={(e) => {
                                                 this.setState(prevState => ({
@@ -169,7 +171,11 @@ export default class ClubEventListComponent extends React.Component {
                                         </button>
 
                                         <button className="btn btn-danger"
-                                                onClick={() => this.props.deleteEvent(event.id)}
+                                                onClick={() => {
+                                                    this.props.deleteEvent(event.id);
+                                                    this.props.findEventsForClub(this.props.match.params.clubId);
+                                                    this.setState({editingEvent: {}});
+                                                }}
                                         >
                                             <i className="fa fa-trash-o" aria-hidden="true"></i>
                                         </button>
@@ -231,7 +237,7 @@ export default class ClubEventListComponent extends React.Component {
                         <div>
                             <label htmlFor="eventContent"
                                    className="col-sm-2 col-form-label">
-                                Location:
+                                Content:
                             </label>
                             <input onChange={(event) => this.setState({
                                 newEventContent: event.target.value
@@ -246,14 +252,17 @@ export default class ClubEventListComponent extends React.Component {
                         <br/>
                         <div>
                             <button className="btn btn-danger float-right"
-                                    onClick={() => this.props.createEvent(
+                                    onClick={() => {this.props.createEvent(
                                         this.props.match.params.clubId,
                                         {
                                             name: this.state.newEventName,
                                             time: this.state.newEventTime,
                                             location: this.state.newEventLocation,
                                             content: this.state.newEventContent
-                                        })}>
+                                        });
+                                        //this.props.findEventsForClub(this.props.match.params.clubId);
+                                        this.setState({editingEvent: {}});
+                                    }}>
                                 <i className="fa fa-plus" aria-hidden="true"></i>
                             </button>
                         </div>

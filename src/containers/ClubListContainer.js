@@ -29,7 +29,7 @@ const dispatchToPropertyMapper = (dispatch) => ({
         createClub(newClub)
             .then(actualClub => dispatch({
                 type: 'CREATE_CLUB',
-                newClub
+                newClub: actualClub
             })),
 
     deleteClub: (clubId) =>
