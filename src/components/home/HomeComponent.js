@@ -6,13 +6,17 @@ import ClubTabsComponent from "./ClubTabsComponent";
 import ClubTaskListComponent from "./ClubTaskListComponent";
 import {Link} from "react-router-dom";
 import ClubListContainer from "../../containers/ClubListContainer";
+import MovieSearchComponent from "../../search/MovieSearchComponent";
+import {fetchProfile} from "../../services/UserServer";
+import MovieListComponent from "./MovieListComponent";
 
-export default class HomeComponent extends React.Component{
+export default class HomeComponent extends React.Component {
 
     state = {
-        userType: '',
+        userType: '',  //'' member, president
         user: {},
-        tab: this.props.match.params.tab  //introduction clublist tasks clublpage search
+        username: '',
+        tab: this.props.match.params.tab  //introduction clublist clublpage movielist search
     }
 
     setTabs = (tab) => {
@@ -22,11 +26,17 @@ export default class HomeComponent extends React.Component{
 
 
     componentDidMount() {
-        // courseService.findAllCourses()
-        //     .then(actualArrayOfCourses =>
-        //         this.setState({
-        //             courses: actualArrayOfCourses
-        //         }))
+        fetchProfile()
+            .catch(e => {
+            })
+            .then(currentUser => {
+                if (currentUser) {
+                    this.setState({
+                        user: currentUser,
+                        userType: 'member'
+                    })
+                }
+            })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -37,6 +47,8 @@ export default class HomeComponent extends React.Component{
         }
     }
 
+
+    //load search page under tabs
     render() {
         return (
             <div>
@@ -75,7 +87,7 @@ export default class HomeComponent extends React.Component{
                                                 className={this.state.tab === "introduction" ? 'nav-link active' : 'nav-link mouse-pointer'}
                                                 onClick={() =>
                                                     this.setTabs('introduction')}
-                                                >
+                                            >
                                                 Introduction
                                             </a>
 
@@ -103,14 +115,18 @@ export default class HomeComponent extends React.Component{
                         </div>
 
                         <div className="col-1 float-right">
-                            <button className="float-left btn btn-sm btn-secondary">
-                                Login
-                            </button>
+                            <Link to={'/login'}>
+                                <button className="float-left btn btn-sm btn-secondary">
+                                    Login
+                                </button>
+                            </Link>
                         </div>
                         <div className="col-1 float-right">
-                            <button className="float-right btn btn-sm btn-secondary">
-                                Register
-                            </button>
+                            <Link to={'/register'}>
+                                <button className="float-right btn btn-sm btn-secondary">
+                                    Register
+                                </button>
+                            </Link>
                         </div>
                     </nav>
                 </div>
@@ -134,27 +150,28 @@ export default class HomeComponent extends React.Component{
                         <div className="col-3">
 
                             <a className="navbar-brand">
-                                Home </a>
+                                {this.state.user.username} Home </a>
 
                         </div>
 
                         <div className="collapse navbar-collapse col-8" id="navbarTogglerDemo03">
 
                             <ul className="navbar-nav mr-auto float-right">
-                                <li className="nav-item active">
-                                    {
-                                        <div>
-                                            <a
-                                                className={this.state.tab === "tasks" ? 'nav-link active' : 'nav-link mouse-pointer'}
-                                                onClick={() =>
-                                                    this.setTabs('tasks')}
-                                            >
-                                                Tasks
-                                            </a>
+                                {/*<li className="nav-item active">*/}
+                                {/*    {*/}
+                                {/*        <div>*/}
+                                {/*            <a*/}
+                                {/*                className={this.state.tab === "tasks" ? 'nav-link active' : 'nav-link mouse-pointer'}*/}
+                                {/*                onClick={() =>*/}
+                                {/*                    this.setTabs('tasks')}*/}
+                                {/*            >*/}
+                                {/*                Tasks*/}
+                                {/*            </a>*/}
 
-                                        </div>
-                                    }
-                                </li>
+                                {/*        </div>*/}
+                                {/*    }*/}
+                                {/*</li>*/}
+
                                 <li className="nav-item">
                                     {
                                         <div>
@@ -169,6 +186,22 @@ export default class HomeComponent extends React.Component{
                                         </div>
                                     }
                                 </li>
+
+                                <li className="nav-item active">
+                                    {
+                                        <div>
+                                            <a
+                                                className={this.state.tab === "movielist" ? 'nav-link active' : 'nav-link mouse-pointer'}
+                                                onClick={() =>
+                                                    this.setTabs('movielist')}
+                                            >
+                                                Movie List
+                                            </a>
+
+                                        </div>
+                                    }
+                                </li>
+
                                 <li className="nav-item">
                                     {
                                         <div>
@@ -176,8 +209,9 @@ export default class HomeComponent extends React.Component{
                                                 className={this.state.tab === "search" ? 'nav-link active' : 'nav-link mouse-pointer'}
                                                 onClick={() =>
                                                     this.setTabs('search')}
+                                                href={'/search'}
                                             >
-                                                Search Song
+                                                Search Movie
                                             </a>
 
                                         </div>
@@ -190,7 +224,7 @@ export default class HomeComponent extends React.Component{
 
                         </div>
 
-
+                        {this.state.userType === 'member' &&
                         <div className="col-1 float-right">
 
                             <Link to='/profile'>
@@ -200,10 +234,9 @@ export default class HomeComponent extends React.Component{
                             </Link>
 
                         </div>
-
+                        }
 
                     </nav>
-
 
 
                 </div>
@@ -214,24 +247,18 @@ export default class HomeComponent extends React.Component{
                     <HomeAboutComponent/>
                 </div>}
 
-                {(this.state.tab === 'clublist' || this.state.tab === 'clubpage')&&
+                {(this.state.tab === 'clublist' || this.state.tab === 'clubpage') &&
                 <div>
                     {/*<ClubListComponent/>*/}
                     {/*<ClubListContainer {...match}/>*/}
-                    <ClubListContainer/>
+                    <ClubListContainer
+                        user={this.state.user}/>
                 </div>}
 
-                {this.state.tab === 'tasks' &&
+                {this.state.tab === 'movielist' &&
                 <div>
-                    <ClubTabsComponent/>
-                    <ClubTaskListComponent/>
+                    <MovieListComponent/>
                 </div>}
-
-
-
-
-
-
 
 
             </div>

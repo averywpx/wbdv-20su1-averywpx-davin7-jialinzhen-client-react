@@ -10,6 +10,8 @@ import LeaderWorksiteComponent from "./worksite/LeaderWorksiteComponent";
 import DesignCLubHomePageComponent from "./ClubPageSetting/DesignCLubHomePageComponent";
 import HomeComponent from "./home/HomeComponent";
 import ProfileComponent from "./profile/ProfileComponent";
+import MovieDetailsComponent from "../search/MovieDetailsComponent";
+import MovieSearchComponent from "../search/MovieSearchComponent";
 
 
 class WhiteBoard extends React.Component {
@@ -69,6 +71,23 @@ class WhiteBoard extends React.Component {
                         path='/:tabs/setting'
                         exact={true}
                         component={DesignCLubHomePageComponent}/>
+
+
+
+                    <Route
+                        path={`/search`}
+                        exact={true}
+                        component={MovieSearchComponent}/>
+
+                    <Route
+                        path={`/search/:searchTitle`}
+                        exact={true}
+                        component={MovieSearchComponent}/>
+
+                    <Route
+                        path={`/movie/:imdbID`}
+                        exact={true}
+                        component={MovieDetailsComponent}/>
 
 
                 </div>

@@ -13,6 +13,12 @@ const OriginHomeComponent = () =>
         </div>
 
         <div className="list-group">
+            <Link className="list-group-item" to='/search'>
+                Search Movie
+            </Link>
+        </div>
+
+        <div className="list-group">
             <Link className="list-group-item" to='/profile'>
                 Profile
             </Link>
