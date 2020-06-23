@@ -257,7 +257,9 @@ export default class HomeComponent extends React.Component {
 
                 {this.state.tab === 'movielist' &&
                 <div>
-                    <MovieListComponent/>
+                    <MovieListComponent
+                        user={this.state.user}
+                    movies={this.state.user.movieList}/>
                 </div>}
 
 

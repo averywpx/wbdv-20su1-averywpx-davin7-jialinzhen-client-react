@@ -10,7 +10,10 @@ export default class ClubListComponent extends React.Component {
         clubs: [],
         newClubName: '',
         newClubCategory: '',
-        newClubPresident: 'Someone'
+        newClubPresident: '',
+        user: this.props.user,
+        username: this.props.user.username
+
     }
 
     componentDidMount() {
@@ -42,8 +45,9 @@ export default class ClubListComponent extends React.Component {
     render() {
         return (
             <div className="container-fluid">
-
+                {console.log(this.props.user.username)}
                 <table className="table table-striped ">
+
                     <thead>
                     <tr className="table-dark">
                         <th>Club Name</th>
@@ -57,14 +61,28 @@ export default class ClubListComponent extends React.Component {
                     <tbody>
 
                     {
+                        !this.props.user.username &&
                         this.props.clubs.map(club =>
                             <ClubRowComponent
                                 // deleteclub={this.props.deleteclub}
                                 key={club.id}
                                 club={club}
+
                                 deleteClub={this.props.deleteClub}
                                 updateClub={this.props.updateClub}/>
                         )}
+                    {//when user exist
+                        this.props.user.username &&
+                        this.props.user.clubs.map(club =>
+                            <ClubRowComponent
+                                // deleteclub={this.props.deleteclub}
+                                key={club.id}
+                                club={club}
+                                user={this.state.user}
+                                deleteClub={this.props.deleteClub}
+                                updateClub={this.props.updateClub}/>
+                        )}
+                    {}
                     <tr>
                         <td>
                             <input
@@ -88,7 +106,7 @@ export default class ClubListComponent extends React.Component {
                             <input
                                 className="add-margin3"
                                 onChange={(event) => this.setState({
-                                    newClubPresident: 'Someone'
+                                    newClubPresident: event.target.value
                                 })}
                                 className="form-control font-italic"
                                 value={this.state.newClubPresident}

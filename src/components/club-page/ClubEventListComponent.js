@@ -89,11 +89,13 @@ export default class ClubEventListComponent extends React.Component {
                                             <p>When: {event.time}</p>
                                             <p>Location: {event.location}</p>
                                             <p>{event.content}</p>
+                                            {this.props.user.username == this.props.club.president &&
                                             <button
                                                 className="btn btn-primary"
                                                 onClick={() => this.setState({editingEvent: event})}>
                                                 Edit
                                             </button>
+                                            }
                                         </div>
                                     }
                                     {this.state.editingEvent.id === event.id &&
@@ -213,6 +215,7 @@ export default class ClubEventListComponent extends React.Component {
                             </li>
                         )
                     }
+                    {this.props.user.username == this.props.club.president &&
                     <li className="list-group-item">
                         <h4>New Event</h4>
                         <div>
@@ -293,6 +296,7 @@ export default class ClubEventListComponent extends React.Component {
                             </button>
                         </div>
                     </li>
+                    }
                 </ul>
 
 

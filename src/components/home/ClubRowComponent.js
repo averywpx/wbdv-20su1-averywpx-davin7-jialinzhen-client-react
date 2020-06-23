@@ -1,11 +1,15 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import {fetchProfile} from "../../services/UserServer";
 
 export default class ClubRowComponent extends React.Component {
 
     state = {
         editing: false,
-        club: this.props.club
+        club: this.props.club,
+        isPresident: false,
+        user: {},
+        username: ''
         // newClubTitle: 'New Club',
         // editingClub: {}
     }
@@ -26,10 +30,37 @@ export default class ClubRowComponent extends React.Component {
             }
         }))
 
+    updateClubPresident = (newPresident) =>
+        this.setState(prevState => ({
+            club: {
+                ...prevState.club,
+                president: newPresident
+            }
+        }))
+
+    componentDidMount() {
+        fetchProfile()
+            .catch(e => {
+            })
+            .then(currentUser => {
+                if (currentUser) {
+                    this.setState({
+                        user: currentUser,
+                        username: currentUser.username,
+                        isPresident: this.props.club.president === currentUser.username
+                    })
+                }
+            })
+    }
+
+// {console.log(this.props.user.username === this.props.club.president)}
+
     render() {
         return (
 
             <tr>
+                {/*{console.log(this.state.username)}*/}
+                {/*{console.log(this.state.isPresident)}*/}
                 <td>
                     {
                         !this.state.editing &&
@@ -62,10 +93,24 @@ export default class ClubRowComponent extends React.Component {
 
                 </td>
                 <td>
-                    <a
-                    href="../club-page/club-page.template.client.html">
-                    Someone
-                </a>
+                    {/*<a*/}
+                    {/*href="../club-page/club-page.template.client.html">*/}
+                    {/*    defaultValue={this.state.club.president}*/}
+
+                        {
+                            !this.state.editing &&
+                            <Link to={`/club-page/${this.state.club.id}/events`}>
+                                {this.props.club.president}
+                            </Link>
+                        }
+                        {
+                            this.state.editing &&
+                            <input
+                                className="form-control"
+                                onChange={(event) => this.updateClubPresident(event.target.value)}
+                                defaultValue={this.props.club.president}/>
+                        }
+                {/*</a>*/}
 
                 {/*    {*/}
                 {/*        !this.state.editing &&*/}
@@ -83,7 +128,8 @@ export default class ClubRowComponent extends React.Component {
                 </td>
                 <td>
                     {
-                        !this.state.editing &&
+                        !this.state.editing && this.state.isPresident &&
+                        // (this.props.user.username === this.props.club.president) &&
                         <button
                             className="btn btn-primary"
                             onClick={() => this.setState({editing: true})}>

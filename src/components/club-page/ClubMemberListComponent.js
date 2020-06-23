@@ -1,44 +1,42 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
-export default class ClubMemberListComponent extends React.Component{
+
+export default class ClubMemberListComponent extends React.Component {
+
+    state = {
+        members: []
+    }
+
+    componentDidMount() {
+        fetch(`http://localhost:8080/api/users`)
+            .then(response => response.json())
+            .then(userList => {
+                if (userList) {
+                    this.setState({
+                        users: userList,
+                    })
+                }
+            })
+    }
+
+
     render() {
         return (
             <div className="table table-striped ">
-                <h1>Club Name</h1>
-                <table className="table table-striped ">
-                    <thead>
-                    <tr className="table-dark">
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>
-                            <i className="fa fa-sort-alpha-asc"></i>
-                            <i className="fa fa-th"></i>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td><a href="#">
-                            <i className="fa  fa-file-text blue-file-icon"></i>
-                            Alice
-                        </a></td>
-                        <td className="d-none d-lg-block"><a
-                            href="#">
-                            Whatever
-                        </a></td>
-                        <td><a
-                            href="#">
-                            <button className="btn btn-danger btn-sm">
-                                <i className="fa fa-times" aria-hidden="true"></i>
-                            </button>
-                        </a></td>
-                    </tr>
+                {console.log(this.state.users)}
+                <h2>Members</h2>
+                <ul className="list-group">
 
-                    </tbody>
-                    <tfoot>
+                    {this.state.users.map(user =>
+                        <li className="list-group-item">
+                            <Link to={`/profile/${this.user.id}`}>{user.username}</Link>
+                        </li>
+                    )
 
-                    </tfoot>
-                </table>
+
+                    }
+                </ul>
 
             </div>
         );

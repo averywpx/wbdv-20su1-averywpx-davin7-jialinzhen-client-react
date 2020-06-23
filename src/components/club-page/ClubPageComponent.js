@@ -6,13 +6,17 @@ import ClubSongListComponent from "./ClubSongListComponent";
 import ClubAboutComponent from "./ClubAboutComponent";
 import CLubContactComponent from "./CLubContactComponent";
 import EventListContainer from "../../containers/EventListContainer";
+import {fetchProfile} from "../../services/UserServer";
 
 
 export default class ClubPageComponent extends React.Component{
 
     state = {
         president: false,
-        tab: this.props.match.params.tab  //events member-list song-list about contact
+        tab: this.props.match.params.tab,  //events member-list song-list about contact
+        user: {},
+        username: '',
+        club:{}
     }
 
     setTabs = (tab) => {
@@ -22,10 +26,30 @@ export default class ClubPageComponent extends React.Component{
 
     componentDidMount() {
         console.log(this.props.match)
+        fetchProfile()
+            .catch(e => {
+            })
+            .then(currentUser => {
+                if (currentUser) {
+                    this.setState({
+                        user: currentUser,
+                        userType: 'member'
+                    })
+                }
+            })
+        fetch(`http://localhost:8080/api/clubs/${this.props.match.params.clubId}`)
+            .then(response => response.json())
+            .then(club => {
+                this.setState(
+                    {
+                        club: club
+                    }
+                )
+            })
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(this.props)
+        console.log(this.state.club.users)
         if (prevProps.match.params.tab !== this.props.match.params.tab) {
             this.setState({
                 tab: this.props.match.params.tab
@@ -33,9 +57,19 @@ export default class ClubPageComponent extends React.Component{
         }
     }
 
+    logout = () => {
+        fetch("http://localhost:8080/api/logout", {
+            method: 'POST',
+            credentials: "include"
+        })
+            .then(response => this.props.history.push("/"))
+
+    }
+
     render() {
         return (
             <div className="container-fluid">
+                {console.log(this.state.club.president)}
 
                 <nav className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
 
@@ -53,11 +87,11 @@ export default class ClubPageComponent extends React.Component{
                     <div className="col-3">
 
                         <a className="navbar-brand">
-                            Club Name</a>
+                            {this.state.club.name} ({this.state.user.username})</a>
 
                     </div>
 
-                    <div className="collapse navbar-collapse col-9" id="navbarTogglerDemo03">
+                    <div className="collapse navbar-collapse col-8" id="navbarTogglerDemo03">
 
                         <ul className="navbar-nav mr-auto float-right">
                             <li className="nav-item">
@@ -142,6 +176,14 @@ export default class ClubPageComponent extends React.Component{
 
 
                     </div>
+                    {this.state.user.username &&
+                        <div className="col-1">
+                            <button className="btn btn-danger"
+                                    onClick={this.logout}>
+                                Logout
+                            </button>
+                        </div>
+                    }
 
 
                 </nav>
@@ -152,6 +194,8 @@ export default class ClubPageComponent extends React.Component{
                     <EventListContainer
                         match={this.props.match}
                         history={this.props.history}
+                        user={this.state.user}
+                        club={this.state.club}
                     />
                 </div>}
 

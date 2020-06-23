@@ -118,12 +118,12 @@ export default class ProfileComponent extends React.Component {
                                id="username"
                                placeholder="someone"
                                defaultValue={this.state.user.username}
-                               onChange={(e) => this.setState({
-                                   user: {
-                                       username: e.target.value
-                                   }
-                               })
-                               }/>
+                               // onChange={(e) => this.setState({
+                               //     user: {
+                               //         username: e.target.value
+                               //     }
+                               // })}
+                        />
                     </div>
                 </div>
 
@@ -136,9 +136,18 @@ export default class ProfileComponent extends React.Component {
                                id="inputPassword"
                                placeholder="******"
                                defaultValue={this.state.user.password}
-                               onChange={(e) => this.setState({
-                                   user: {password: e.target.value}
-                               })}
+                               // onChange={(e) => this.setState({
+                               //     user: {password: e.target.value}
+                               // })}
+                               onChange={(e) => {
+                                   const newPassword = e.target.value
+                                   this.setState(prevState => ({
+                                       user: {
+                                           ...prevState.user,
+                                           password: newPassword
+                                       }
+                                   }));
+                               }}
                         />
                     </div>
                 </div>
@@ -153,9 +162,17 @@ export default class ProfileComponent extends React.Component {
                                    id="male"
                                    name="gender"
                                    checked={this.state.user.gender === 'male'}
-                                   onChange={(e) => this.setState({
-                                       user: {password: e.target.value}
-                                   })}
+                                   // onChange={(e) => this.setState({
+                                   //     user: {password: e.target.value}
+                                   // })}
+                                   onChange={(e) => {
+                                       this.setState(prevState => ({
+                                           user: {
+                                               ...prevState.user,
+                                               gender: 'male'
+                                           }
+                                       }));
+                                   }}
                                    defaultValue={'male'}
                             />
                             <label htmlFor="male" className="custom-control-label">Male</label>
@@ -166,9 +183,17 @@ export default class ProfileComponent extends React.Component {
                                    id="female"
                                    name="gender"
                                    checked={this.state.user.gender === 'female'}
-                                   onChange={(e) => this.setState({
-                                       user: {password: e.target.value}
-                                   })}
+                                   // onChange={(e) => this.setState({
+                                   //     user: {password: e.target.value}
+                                   // })}
+                                   onChange={(e) => {
+                                       this.setState(prevState => ({
+                                           user: {
+                                               ...prevState.user,
+                                               gender: 'female'
+                                           }
+                                       }));
+                                   }}
                                    defaultValue={'female'}/>
                             <label htmlFor="female" className="custom-control-label">Female</label>
                         </div>
@@ -185,11 +210,20 @@ export default class ProfileComponent extends React.Component {
                                    id="phone"
                                    placeholder="(xxx)-xxx-xxxx"
                                    defaultValue={this.state.user.phone}
-                                   onChange={(e) => this.setState({
-                                       user: {
-                                           phone: e.target.value
-                                       }
-                                   })}/>
+                                   // onChange={(e) => this.setState({
+                                   //     user: {
+                                   //         phone: e.target.value
+                                   //     }})}
+                                   onChange={(e) => {
+                                       const newPhone = e.target.value
+                                       this.setState(prevState => ({
+                                           user: {
+                                               ...prevState.user,
+                                               phone: newPhone
+                                           }
+                                       }));
+                                   }}
+                            />
                         </div>
                     </div>
                 }
@@ -203,11 +237,20 @@ export default class ProfileComponent extends React.Component {
                                id="email"
                                placeholder="example@gmail.com"
                                defaultValue={this.state.user.email}
-                               onChange={(e) => this.setState({
-                                   user: {
-                                       email: e.target.value
-                                   }
-                               })}/>
+                               // onChange={(e) => this.setState({
+                               //     user: {
+                               //         email: e.target.value
+                               //     }})}
+                               onChange={(e) => {
+                                   const newEmail = e.target.value
+                                   this.setState(prevState => ({
+                                       user: {
+                                           ...prevState.user,
+                                           email: newEmail
+                                       }
+                                   }));
+                               }}
+                        />
                     </div>
                 </div>
             </div>
@@ -243,11 +286,14 @@ export default class ProfileComponent extends React.Component {
 
                 {/*<br/>*/}
                 <h2>Favorite Movies</h2>
+                {console.log(this.state.user.movieList)}
                 <ul className="list-group">
                     {
                         this.state.user.movieList.map(movie =>
                         <li className="list-group-item">
-                            <label>{movie.name}</label>
+                            <Link to={`/movie/${movie.imdb}`}>
+                                {movie.name}
+                            </Link>
                         {/*    <button className="btn float-right btn-sm white-icon  "*/}
                         {/*    onClick={() => {*/}
                         {/*    this.deleteMovie(movie.id);*/}
@@ -276,7 +322,7 @@ export default class ProfileComponent extends React.Component {
             <label className="col-sm-2 col-form-label"></label>
             <div className="col-sm-10 ">
                 <button className="btn btn-success form-control"
-                       // onClick={this.update()}
+                       //onClick={this.update()}
                 >
                     Update
                 </button>

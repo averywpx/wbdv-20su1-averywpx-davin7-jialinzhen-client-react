@@ -53,7 +53,7 @@ class WhiteBoard extends React.Component {
                         component={ClubPageComponent}/>
 
                     <Route
-                        path='/profile'
+                        path={['/profile', '/profile/:userId']}
                         exact={true}
                         component={ProfileComponent}/>
 
