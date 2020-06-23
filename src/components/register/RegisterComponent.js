@@ -8,33 +8,49 @@ export default class RegisterComponent extends React.Component {
     //todo: if register as president, add new club. If register as member, check club name.
 
     state = {
-        club: [
-
-        ],
-        newClubName: ''
+        username: '',
+        password: '',
+        error: null
     }
 
-    //add club
-    addName = (title) =>
-        ClubService.createClub({
-            title: title,
-            president: 'someone',
-            modified: (new Date()).toDateString()
+
+    //todo: throw error when the username and password is empty
+    register = () => {
+        fetch("http://localhost:8080/api/register", {
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password
+            }),
+            headers: {
+                'content-type': 'application/json'
+            },
+            method: 'POST',
+            credentials: "include"
         })
-            .then(theActualNewClub =>
-                this.setState((prevState) => {
-                    return {
-                        club: [
-                            ...prevState.club,
-                            theActualNewClub
-                        ]
-                    }
-                }))
+            .then(response => response.json())
+            .catch(e => {
+                this.setState({
+                    error: 'Unable to register'
+                })
+            })
+            .then(currentUser => {
+                if(currentUser) {
+                    this.props.history.push("/profile")
+                }
+            })
+    }
 
     render() {
         return (
             <div className="container-fluid">
                 <h1>Register</h1>
+
+                {
+                    this.state.error &&
+                    <div className="alert alert-danger">
+                        {this.state.error}
+                    </div>
+                }
 
                 <div className="form-group row">
                     <label htmlFor="username"
@@ -44,7 +60,20 @@ export default class RegisterComponent extends React.Component {
                                className="form-control wbdv-field wbdv-username"
                                id="username"
                                placeholder="Someone"
-                               title="Use this username to login"/>
+                               title="Use this username to login"
+                               onChange={(e) => this.setState({username: e.target.value})}/>
+                    </div>
+                </div>
+
+                <div className="form-group row">
+                    <label htmlFor="inputPassword"
+                           className="col-sm-2 col-form-label">Password</label>
+                    <div className="col-sm-10">
+                        <input type="password"
+                               className="form-control wbdv-field wbdv-password"
+                               id="inputPassword"
+                               placeholder="********"
+                               onChange={(e) => this.setState({password: e.target.value})}/>
                     </div>
                 </div>
 
@@ -88,16 +117,7 @@ export default class RegisterComponent extends React.Component {
                 </div>
 
 
-                <div className="form-group row">
-                    <label htmlFor="inputPassword"
-                           className="col-sm-2 col-form-label">Password</label>
-                    <div className="col-sm-10">
-                        <input type="password"
-                               className="form-control wbdv-field wbdv-password"
-                               id="inputPassword"
-                               placeholder="********"/>
-                    </div>
-                </div>
+
 
                 <div className="form-group row">
                     <label htmlFor="verifyPassword"
@@ -155,8 +175,8 @@ export default class RegisterComponent extends React.Component {
                     <div className="col-sm-10">
 
                         <Link to={`/club-home-page`}>
-                                <button className="btn btn-primary form-control">
-
+                                <button className="btn btn-primary form-control"
+                                        onClick={this.register}>
                                     Register
                                 </button>
                         </Link>
@@ -174,10 +194,10 @@ export default class RegisterComponent extends React.Component {
                     </div>
 
                     <div className="col">
-                        <a className="float-right"
-                           href="../course-list/course-list.template.client.html">
+                        <Link className="float-right"
+                           to="/">
                             Cancel
-                        </a>
+                        </Link>
                     </div>
                 </div>
 

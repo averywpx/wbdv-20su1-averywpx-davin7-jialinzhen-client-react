@@ -1,6 +1,85 @@
 import React from "react";
+import {updateUser} from "../../services/UserServer";
 
 export default class ProfileComponent extends React.Component {
+    state = {
+        user: {
+            username: '',
+            password: '',
+            email:'',
+            gender: '',
+            phone:'',
+           // movies: []
+        }
+    }
+
+    componentDidMount() {
+        fetch("http://localhost:8080/api/profile", {
+            method: 'POST',
+            credentials: "include"
+        })
+            .then(response => {
+                console.log(response)
+                return response.json()
+            })
+            .catch(e => {
+                //todo: go to home page
+                this.props.history.push("/")
+            })
+            .then(user => {
+                if(user)
+                    this.setState({
+                        user: user
+                    })
+            })
+    }
+
+    update = () => {
+            fetch("http://localhost:8080/api/profile", {
+                body: JSON.stringify(this.state.user),
+                headers: {
+                    'content-type': 'application/json'
+                },
+                method: 'PUT',
+                credentials: "include"
+            })
+                .then(response => response.json())
+                .then(user => this.setState({
+                    username: user.username,
+                    password: user.password,
+                    email: user.email,
+                    phone: user.phone,
+                    gender: user.gender
+                    //todo: set successful state like register do
+                }))
+
+    }
+
+    // update = () => {
+    //     fetch("http://localhost:8080/api/profile", {
+    //         body: JSON.stringify(this.state.user),
+    //         headers: {
+    //             'content-type': 'application/json'
+    //         },
+    //         method: 'PUT',
+    //         credentials: "include"
+    //     })
+    //         .then(response => response.json())
+    //         .then(user => this.setState({
+    //             username: user.username, password: user.password
+    //         }))
+    // }
+
+    logout = () => {
+        fetch("http://localhost:8080/api/logout", {
+            method: 'POST',
+            credentials: "include"
+        })
+            .then(response => this.props.history.push("/"))
+
+    }
+
+
 
     render() {
         return (
@@ -16,8 +95,9 @@ export default class ProfileComponent extends React.Component {
                         </button>
                     </div>
                     <div className="col-2">
-                        <button className="btn btn-danger float-right">
-                            Delete User
+                        <button className="btn btn-danger"
+                                onClick={this.logout}>
+                            Logout
                         </button>
                     </div>
                 </div>
@@ -36,8 +116,13 @@ export default class ProfileComponent extends React.Component {
                                        readOnly
                                        className="form-control wbdv-field wbdv-username"
                                        id="username"
-                                       value="someone"
-                                       placeholder="someone"/>
+                                       placeholder="someone"
+                                       defaultValue={this.state.user.username}
+                                       onChange={(e) => this.setState({
+                                           user: {
+                                               username: e.target.value
+                                           }})
+                                       }/>
                             </div>
                         </div>
 
@@ -48,7 +133,11 @@ export default class ProfileComponent extends React.Component {
                                 <input type="password"
                                        className="form-control"
                                        id="inputPassword"
-                                       placeholder="******"/>
+                                       placeholder="******"
+                                       defaultValue={this.state.user.password}
+                                       onChange={(e) => this.setState({
+                                           user: {password: e.target.value}})}
+                                />
                             </div>
                         </div>
 
@@ -60,14 +149,23 @@ export default class ProfileComponent extends React.Component {
                                 <input type="radio"
                                        className="custom-control-input"
                                        id="male"
-                                       name="gender"/>
+                                       name="gender"
+                                       checked={this.state.user.gender === 'male'}
+                                       onChange={(e) => this.setState({
+                                           user: {password: e.target.value}})}
+                                defaultValue={'male'}
+                                />
                                 <label htmlFor="male" className="custom-control-label">Male</label>
                             </div>
                             <div className="custom-control float-right col-sm-5 custom-radio">
                                 <input type="radio"
                                        className="custom-control-input"
                                        id="female"
-                                       name="gender"/>
+                                       name="gender"
+                                       checked={this.state.user.gender === 'female'}
+                                       onChange={(e) => this.setState({
+                                           user: {password: e.target.value}})}
+                                defaultValue={'female'}/>
                                 <label htmlFor="female" className="custom-control-label">Female</label>
                             </div>
                         </div>
@@ -79,7 +177,12 @@ export default class ProfileComponent extends React.Component {
                                 <input type="text"
                                        className="form-control wbdv-field wbdv-phone"
                                        id="phone"
-                                       placeholder="(xxx)-xxx-xxxx"/>
+                                       placeholder="(xxx)-xxx-xxxx"
+                                       defaultValue={this.state.user.phone}
+                                       onChange={(e) => this.setState({
+                                           user: {
+                                               phone: e.target.value
+                                           }})}/>
                             </div>
                         </div>
 
@@ -90,43 +193,49 @@ export default class ProfileComponent extends React.Component {
                                 <input type="text"
                                        className="form-control wbdv-field wbdv-email"
                                        id="email"
-                                       placeholder="example@gmail.com"/>
+                                       placeholder="example@gmail.com"
+                                       defaultValue={this.state.user.email}
+                                       onChange={(e) => this.setState({
+                                           user: {
+                                               email: e.target.value
+                                           }})}/>
                             </div>
                         </div>
                     </div>
 
                     <div className="col-4">
-                        <ul className="list-group wbdv-Club-list d-none d-lg-block">
-                            <li className="list-group-item">
-                                <label>Club 1</label>
-                                <button className="btn float-right btn-sm white-icon  ">
-                                    X
-                                </button>
-                            </li>
-                            <li className="list-group-item">
-                                <label>Club 2</label>
-                                <button className="btn float-right btn-sm grey-icon">
-                                    X
-                                </button>
-                            </li>
-                            <li className="list-group-item">
-                                <div className="input-group input-group-sm">
-                                    <input type="text"
-                                           className="form-control"
-                                           placeholder="Add New Club"/>
-                                    <button className="btn float-right btn-sm grey-icon">
-                                        <i className="fa fa-plus -add-btn"
-                                           aria-hidden="true"></i>
-                                    </button>
+                        {/*<ul className="list-group wbdv-Club-list d-none d-lg-block">*/}
+                        {/*    <li className="list-group-item">*/}
+                        {/*        <label>Club 1</label>*/}
+                        {/*        <button className="btn float-right btn-sm white-icon  ">*/}
+                        {/*            X*/}
+                        {/*        </button>*/}
+                        {/*    </li>*/}
+                        {/*    <li className="list-group-item">*/}
+                        {/*        <label>Club 2</label>*/}
+                        {/*        <button className="btn float-right btn-sm grey-icon">*/}
+                        {/*            X*/}
+                        {/*        </button>*/}
+                        {/*    </li>*/}
+                        {/*    <li className="list-group-item">*/}
+                        {/*        <div className="input-group input-group-sm">*/}
+                        {/*            <input type="text"*/}
+                        {/*                   className="form-control"*/}
+                        {/*                   placeholder="Add New Club"/>*/}
+                        {/*            <button className="btn float-right btn-sm grey-icon">*/}
+                        {/*                <i className="fa fa-plus -add-btn"*/}
+                        {/*                   aria-hidden="true"></i>*/}
+                        {/*            </button>*/}
 
-                                </div>
+                        {/*        </div>*/}
 
-                            </li>
-                        </ul>
+                        {/*    </li>*/}
+                        {/*</ul>*/}
 
-                        <br/>
+                        {/*<br/>*/}
 
                         <ul className="list-group">
+                            <h2>Favorite Movies</h2>
                             <li className="list-group-item">
                                 <label>Movie 1</label>
                                 <button className="btn float-right btn-sm white-icon  ">
@@ -153,7 +262,7 @@ export default class ProfileComponent extends React.Component {
 
                             </li>
                         </ul>
-                        
+
                     </div>
 
                 </div>
@@ -163,20 +272,20 @@ export default class ProfileComponent extends React.Component {
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label"></label>
                     <div className="col-sm-10 ">
-                        <a className="btn btn-success form-control wbdv-button wbdv-update"
-                           href="">
+                        <button className="btn btn-success form-control"
+                                //onClick={this.update()}
+                        >
                             Update
-                        </a>
+                        </button>
                     </div>
                 </div>
 
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label"></label>
                     <div className="col-sm-10">
-                        <a className="btn btn-danger form-control wbdv-button wbdv-logout"
-                           href="../course-list/course-list.template.client.html">
-                            Logout
-                        </a>
+                        <button className="btn btn-danger form-control">
+                            Delete User
+                        </button>
                     </div>
                 </div>
 
@@ -186,3 +295,5 @@ export default class ProfileComponent extends React.Component {
     }
 
 }
+
+

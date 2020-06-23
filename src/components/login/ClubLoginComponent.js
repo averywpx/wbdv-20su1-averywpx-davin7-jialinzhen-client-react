@@ -3,6 +3,34 @@ import {Link} from "react-router-dom";
 
 export default class ClubLoginComponent extends React.Component {
 
+    state = {
+        username: '',
+        password: ''
+    }
+
+    login = () => {
+        fetch("http://localhost:8080/api/login", {
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password
+            }),
+            headers: {
+                'content-type': 'application/json'
+            },
+            method: 'POST',
+            credentials: "include"
+        }).then(response => response.json())
+            .catch(e => {
+                this.props.history.push("/login")
+            })
+            .then(currentUser => {
+                if (currentUser)
+                    //todo: go to home page
+                    this.props.history.push("/profile")
+            })
+
+    }
+
     render() {
         return (
             <div className="container-fluid">
@@ -16,7 +44,8 @@ export default class ClubLoginComponent extends React.Component {
                                className="form-control wbdv-field wbdv-username"
                                id="username"
                                placeholder="Someone"
-                               title="Use this username to login"/>
+                               title="Use this username to login"
+                               onChange={(e) => this.setState({username: e.target.value})}/>
                     </div>
                 </div>
 
@@ -27,29 +56,25 @@ export default class ClubLoginComponent extends React.Component {
                         <input type="password"
                                className="form-control wbdv-field wbdv-password"
                                id="inputPassword"
-                               placeholder="********"/>
+                               placeholder="********"
+                               onChange={(e) => this.setState({password: e.target.value})}/>
                     </div>
                 </div>
 
                 <div className="form-group row">
                     <label className="col-sm-2 col-form-label"></label>
                     <div className="col-sm-10">
-                        <a className="btn btn-primary form-control wbdv-button wbdv-login"
-                           href="./user-home-page">
-                            Login
-                        </a>
+                        <Link to={'./profile'}>
+                            <button className="btn btn-primary form-control"
+                                    onClick={this.login}
+                            >
+                                Login
+                            </button>
+                        </Link>
                     </div>
                 </div>
 
                 <div className="form-group row">
-                    <label className="col-sm-2 col-form-label"></label>
-                    <div className="col">
-                        <a className="float-left"
-                           href="">
-                            Forget Password?
-                        </a>
-                    </div>
-
                     <div className="col">
                         <a className="float-right"
                            href="./register">
