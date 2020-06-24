@@ -20,14 +20,14 @@ class WhiteBoard extends React.Component {
             <BrowserRouter>
                 <div className="container-fluid">
 
-                    <Route
-                        path='/'
-                        exact={true}
-                        component={OriginHomeComponent}
-                    />
+                    {/*<Route*/}
+                    {/*    path='/'*/}
+                    {/*    exact={true}*/}
+                    {/*    component={OriginHomeComponent}*/}
+                    {/*/>*/}
 
                     <Route
-                        path='/home/:tab'
+                        path={['/home/:tab', '/home/introduction','/']}
                         exact={true}
                         component={HomeComponent}
                     />
@@ -67,10 +67,10 @@ class WhiteBoard extends React.Component {
                     {/*    exact={true}*/}
                     {/*    component={LeaderWorksiteComponent}/>*/}
 
-                    <Route
-                        path='/:tabs/setting'
-                        exact={true}
-                        component={DesignCLubHomePageComponent}/>
+                    {/*<Route*/}
+                    {/*    path='/:tabs/setting'*/}
+                    {/*    exact={true}*/}
+                    {/*    component={DesignCLubHomePageComponent}/>*/}
 
 
 
